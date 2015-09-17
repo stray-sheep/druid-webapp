@@ -1,0 +1,11 @@
+<div ng-controller="DashboardCtrl">
+  <h1 class="text-primary" style="margin-bottom: 30px;">Dashboard</h1>
+  <div class="row">
+    <div ng-repeat="(key,value) in charts">
+      <div class="col-md-6">
+      	<h3 class="text-primary"><a href="" ui-sref="tasks({ id: key })">{{ queues[key].name }}</a> <small class="text-success">{{ queues[key].organization.name }}</small></h3>
+        <nvd3 options="options" data="value"></nvd3>
+    </div>
+    </div>
+  </div>
+</div>

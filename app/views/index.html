@@ -1,0 +1,15 @@
+<div ng-controller="MainCtrl">
+  <h3>Authentication</h3>
+  <form style="width: 40%;">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Username</label>
+      <input type="text" class="form-control" name="username" ng-model="auth.username">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" name="password" ng-model="auth.password">
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-click="login()">Login</button>
+  </form>
+</div>
