@@ -23,36 +23,7 @@ angular.module('druidWebApp')
       $scope.waiting = true;
       $scope.edit = { };
       $scope.showAddTask = false;
-
-      // FIXME -- no graph here just yet
-      // var days = 4;
-      // var now = new Date();
-      // var mydays = [];
-      // while ( days >= 0) {
-      //     var ago = new Date();
-      //     ago.setDate(ago.getDate()-days);
-      //     mydays.push(ago.getDay());
-      //     days--;
-      // }
-      // $scope.weekdays = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-      // $scope.options = {
-      //         chart: {
-      //             type: 'lineChart',
-      //             height: 150,
-      //             x: function(d){ return d.x; },
-      //             y: function(d){ return d.y; },
-      //             useInteractiveGuideline: true,
-      //             xAxis: {
-      //                 axisLabel: 'Last 5 days',
-      //                 tickValues: mydays,
-      //                 tickFormat: function(d) { return $scope.weekdays[d]; }
-      //             },
-      //             yAxis: {
-      //               tickValues: [0,5,10]
-      //             },
-      //             yDomain: [0,10]
-      //         }
-      //     };
+      $scope.opts = { };
 
       $http
         .get(API+'/queues/'+$stateParams.id)
@@ -64,18 +35,6 @@ angular.module('druidWebApp')
               if (response.status === 200) {
                 $scope.tasks = response.data;
                 $scope.waiting = false;
-                // FIXME -- no graph here just yet
-                // $http
-                //   .get(API+'/chart1/'+$stateParams.id)
-                //   .then( function(response) {
-                //     if (response.status === 200) {
-                //       var myData = [
-                //         { key: 'todo', values: response.data.todo, color: 'red'},
-                //         { key: 'done', values: response.data.done, color: 'green'}
-                //       ];
-                //       $scope.chart = myData;
-                //     }
-                //   });
               }
             });
         });
