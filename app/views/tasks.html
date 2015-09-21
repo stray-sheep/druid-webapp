@@ -11,7 +11,12 @@
             <a href="" ng-click="reorder(t._id,tasks[$index-1].order,tasks[$index-1]._id)" ng-if="!$first"><span class="glyphicon glyphicon-triangle-top text-danger"></span></a>
         </td>
         <td>
-          <span ng-class="{'task-done': t.done}">{{ t.text }}</span>
+          <span ng-if="t._id==editing._id" ng-class="{'task-done': t.done}">
+            <input type="text" ng-model="editing.text" style="width: 50%;">
+            <button class="btn btn-success btn-xs" ng-click="taskEditUpdate()">Save</button>
+            <button class="btn btn-default btn-xs" ng-click="taskEditCancel()">Cancel</button>
+          </span>
+          <span ng-if="t._id!=editing._id" ng-class="{'task-done': t.done}">{{ t.text }}</span>
           <span style="margin-left: 14px;"></span>
           <span class="label label-default" ng-repeat="l in t.tags" style="margin-left: 6px;">{{ l }}</span>
         </td>
@@ -32,7 +37,7 @@
         <td colspan="2" style="border: 0px;">
           <span> {{ t.partial }}% completed. <span ng-if="t.date">Due Date: {{ t.date }}.</span>
           <span class="pull-right">
-            <a href="" ng-click="alert(t._id)" class="text-danger"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="" ng-click="taskEdit(t)" class="text-danger"><span class="glyphicon glyphicon-pencil"></span></a>
             &nbsp;<a href="" ng-click="alert(t._id)" class="text-danger"><span class="glyphicon glyphicon-calendar"></span></a>
             &nbsp;<a href="" ng-click="alert(t._id)" class="text-danger"><span class="glyphicon glyphicon-flag"></span></a>
             &nbsp;<a href="" ng-click="alert(t._id)" class="text-danger"><span class="glyphicon glyphicon-certificate"></span></a>

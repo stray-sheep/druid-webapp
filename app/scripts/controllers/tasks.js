@@ -10,9 +10,6 @@ angular.module('druidWebApp')
     }
 
     $scope.opts = { };
-    $scope.tDone = 2;
-    $scope.tTotal = 5;
-
     $scope.toogleOpt = function(idx) {
       $scope.opts[idx] = !$scope.opts[idx];
     }
@@ -24,6 +21,7 @@ angular.module('druidWebApp')
       $scope.edit = { };
       $scope.showAddTask = false;
       $scope.opts = { };
+      $scope.editing = null;  // task being edited
 
       $http
         .get(API+'/queues/'+$stateParams.id)
@@ -39,6 +37,7 @@ angular.module('druidWebApp')
             });
         });
     }
+
     $scope.toogleAddTask = function() {
       $scope.showAddTask = !$scope.showAddTask;
     };
@@ -79,6 +78,30 @@ angular.module('druidWebApp')
         .put(API+'/task/'+id, { done: false, partial: 0, completed: '' })
         .then( function(response) {
           if ( response.status === 200 ) { $scope.updateMe(); }
+          else { alert(response.data.message); }
+        });
+    };
+
+    $scope.taskEdit = function(t) {
+      if ($scope.editing == null) {
+        $scope.editing = angular.copy(t);
+      }
+      else {
+        alert('Already editing something, please no multi-edits, thank you.')
+      }
+    };
+
+    $scope.taskEditCancel = function() {
+      $scope.editing = null;
+    };
+
+    $scope.taskEditUpdate = function() {
+      if ( $scope.editing == null) { return; }
+
+      $http
+        .put(API+'/task/'+$scope.editing._id, { text: $scope.editing.text })
+        .then( function(response) {
+          if ( response.status === 200 ) { $scope.updateMe() }
           else { alert(response.data.message); }
         });
     };
