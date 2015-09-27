@@ -2,7 +2,7 @@
 
 var app = angular
   .module('druidWebApp', ['ui.router','nvd3'])
-  .constant('API', 'http://api.druid.stray-sheep.com:5000');
+  .constant('API', 'http://api.druid.stray-sheep.com');
 
 app.factory('authInterceptor', function($rootScope, $q, $window) {
     return {
