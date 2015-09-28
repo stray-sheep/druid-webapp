@@ -12,16 +12,19 @@ angular.module('druidWebApp')
     $scope.queues = {};
     $scope.charts = {};
 
+    $scope.weekdays = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
     var days = 4;
     var now = new Date();
     var mydays = [];
     while ( days >= 0) {
         var ago = new Date();
         ago.setDate(ago.getDate()-days);
-        mydays.push(ago.getDay());
+        mydays.push($scope.weekdays[ago.getDay()]);
         days--;
     }
-    $scope.weekdays = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+    $scope.weekdays = mydays;
+    console.log(mydays);
+
     $scope.options = {
             chart: {
                 type: 'lineChart',
@@ -31,7 +34,7 @@ angular.module('druidWebApp')
                 useInteractiveGuideline: true,
                 xAxis: {
                     axisLabel: 'Last 5 days',
-                    tickValues: mydays,
+                    tickValues: [0,1,2,3,4],
                     tickFormat: function(d) { return $scope.weekdays[d]; }
                 },
                 yAxis: {
@@ -57,6 +60,7 @@ angular.module('druidWebApp')
                     { key: 'todo', values: response.data.todo, color: 'red'},
                     { key: 'done', values: response.data.done, color: 'green'}
                   ];
+                  console.log(myData);
                   $scope.charts[response.data.queue] = myData;
                 }
               });
