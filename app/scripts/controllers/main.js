@@ -4,7 +4,8 @@ angular.module('druidWebApp')
   .controller('MainCtrl', ['$scope', '$http', '$window', '$state', 'API', function ($scope, $http, $window, $state, API) {
 
     $scope.user = null;
-    $scope.auth = { username: '', password: '' };
+    $scope.auth = { email: '', password: '' };
+    $scope.register = { email: '', username: '', password: '', repeat: '' };
 
     if ($window.sessionStorage.user) {
       $scope.user = JSON.parse($window.sessionStorage.user);
@@ -15,11 +16,10 @@ angular.module('druidWebApp')
     }
 
     $scope.login = function() {
-      if ($scope.auth.username && $scope.auth.password) {
+      if ($scope.auth.email && $scope.auth.password) {
         $http
-          .post(API + '/auth/login', $scope.auth)
+          .post(API + '/login', $scope.auth)
           .then( function(response) {
-            console.debug(response.data);
             if (response.data.success) {
               $window.sessionStorage.token = response.data.token;
               $window.sessionStorage.user = JSON.stringify(response.data.user);
@@ -32,16 +32,28 @@ angular.module('druidWebApp')
           });
       }
       else {
-        console.debug('missing username or password');  // FIXME feedback
+        alert('E-mail and password are required to login.');
       }
     };
 
     $scope.logout = function() {
-      console.debug('do logout');
       delete $window.sessionStorage.token;
       delete $window.sessionStorage.user;
       delete $scope.user;
       $state.go('index');
+    };
+
+    $scope.register = function() {
+      if ($scope.register.email && $scope.register.username && $scope.register.password && $scope.register.repeat) {
+        $http
+          .post(API + '/register', $scope.register)
+          .then( function(response) {
+            alert(response.data.message);
+          });
+      }
+      else {
+        alert('E-mail, username, password and repeat are required to register.');
+      }
     };
 
   }]);
