@@ -103,3 +103,7 @@ body {
 .mybg > td {
   background-color: #f5ffe5;
 }
+
+.mybtn { color: #777; }
+.mybtn:hover { color: #999; }
+.mybtn:visited { color: #777; }
