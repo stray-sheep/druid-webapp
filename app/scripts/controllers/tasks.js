@@ -12,7 +12,7 @@ angular.module('druidWebApp')
     $scope.opts = { };
     $scope.toogleOpt = function(idx) {
       $scope.opts[idx] = !$scope.opts[idx];
-    }
+    };
 
     $scope.updateMe = function() {
       $scope.queue = null;
@@ -36,7 +36,7 @@ angular.module('druidWebApp')
               }
             });
         });
-    }
+    };
 
     $scope.toogleAddTask = function() {
       $scope.showAddTask = !$scope.showAddTask;
@@ -83,11 +83,11 @@ angular.module('druidWebApp')
     };
 
     $scope.taskEdit = function(t) {
-      if ($scope.editing == null) {
+      if ($scope.editing === null) {
         $scope.editing = angular.copy(t);
       }
       else {
-        alert('Already editing something, please no multi-edits, thank you.')
+        alert('Already editing something, please no multi-edits, thank you.');
       }
     };
 
@@ -96,14 +96,14 @@ angular.module('druidWebApp')
     };
 
     $scope.taskEditUpdate = function() {
-      if ( $scope.editing == null) { return; }
-
-      $http
-        .put(API+'/task/'+$scope.editing._id, { text: $scope.editing.text })
-        .then( function(response) {
-          if ( response.status === 200 ) { $scope.updateMe() }
-          else { alert(response.data.message); }
-        });
+      if ( $scope.editing !== null) {
+        $http
+          .put(API+'/task/'+$scope.editing._id, { text: $scope.editing.text })
+          .then( function(response) {
+            if ( response.status === 200 ) { $scope.updateMe(); }
+            else { alert(response.data.message); }
+          });
+      }
     };
 
     $scope.reorder = function(id1, pos, id2) {
