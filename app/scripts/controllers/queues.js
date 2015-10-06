@@ -3,19 +3,31 @@
 angular.module('druidWebApp')
   .controller('QueuesCtrl', ['$scope', '$http', '$window', '$stateParams', 'API', function ($scope, $http, $window, $stateParams, API) {
     $scope.waiting = true;
-    function updateMe() {
+
+    var updateMe = function() {
+      $scope.waiting = true;
       $scope.showAddForm = false;
       $scope.edit = { user: $scope.user._id };
-      $scope.waiting = true;
+      $scope.stats = {};
+
       $http
         .get(API+'/queues')
         .then( function(response) {
           if ( response.status === 200 ) {
-            $scope.data = response.data;
+            $scope.queues = response.data;
             $scope.waiting = false;
+            var list = [];
+            for (var i = 0; i < $scope.queues.length; i++) {
+              list.push($scope.queues[i]._id);
+            }
+            $http
+              .post(API+'/stats', { list: list })
+              .then( function(response) {
+                $scope.stats = response.data;
+              })
           }
         });
-    }
+    };
 
     $scope.user = null;
     if ($window.sessionStorage.user) {
@@ -43,16 +55,16 @@ angular.module('druidWebApp')
         });
     };
 
-    // $scope.queueDel = function(id) {
-    //   $http
-    //     .delete(API+'/queues/'+id.$oid)
-    //     .then( function(response) {
-    //       $http
-    //         .get(API+'/queues')
-    //         .then( function(response) {
-    //           $scope.data = response.data;
-    //         });
-    //     });
-    // };
+    $scope.queueDel = function(id) {
+      $http
+        .delete(API+'/queues/'+id)
+        .then( function(response) {
+          updateMe();
+        });
+    };
+
+    $scope.queueEdit = function(id) {
+      console.log("TODO");
+    };
 
   }]);

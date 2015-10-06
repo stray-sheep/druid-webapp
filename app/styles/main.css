@@ -107,3 +107,6 @@ body {
 .mybtn { color: #777; }
 .mybtn:hover { color: #999; }
 .mybtn:visited { color: #777; }
+.mytitle {
+  margin-bottom: 30px;
+}

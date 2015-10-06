@@ -1,29 +1,39 @@
 <div ng-controller="QueuesCtrl">
   <h1 class="text-primary" style="margin-bottom: 30px;">Queues</h1>
-  <table class="table table-striped">
+  <table class="table">
     <tbody>
       <tr ng-if="waiting">
-        <td colspan="3"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></td>
+        <td colspan="5"><i class="glyphicon glyphicon-repeat glyphicon-spin"></i></td>
       </tr>
-      <tr ng-repeat="q in data" ng-if="!waiting">
-        <td>
-          <span ng-if="q.organization"><span class="label label-success" style="font-weight: normal; text-transform: uppercase;">{{ q.organization.name }}</span>&nbsp;&nbsp;</span>
-          <a ui-sref="tasks({ id: q._id })">{{ q.name }}</span>
+      <tr ng-repeat="q in queues" ng-if="!waiting">
+        <td style="width: 50%;">
+          <span><a ui-sref="tasks({ id: q._id })">{{ q.name }}</span>
+        </td>
+        <td style="text-align: center; width: 1%;">
+          <span ng-if="q.organization" class="label label-info" style="font-weight: normal; text-transform: uppercase;">{{ q.organization.name }}</span>
+        </td>
+        <td style="text-align: center; width: 1%;">
+          <span class="label label-danger" style="font-weight: normal; text-transform: uppercase;">
+            <span ng-if="stats[q._id]">{{ stats[q._id].todo }} todo</span>
+            <span ng-if="!stats[q._id]"><i class="glyphicon glyphicon-repeat glyphicon-spin"></i> todo</span>
+          </span>
+        </td>
+        <td style="text-align: center;  width: 1%;">
+          <span class="label label-success" style="font-weight: normal; text-transform: uppercase;">
+            <span ng-if="stats[q._id]">{{ stats[q._id].done }} done</span>
+            <span ng-if="!stats[q._id]"><i class="glyphicon glyphicon-repeat glyphicon-spin"></i> done</span>
+          </span>
         </td>
         <td style="text-align: right">
-          <span>Tasks: {{ q.tasks.length || '--' }}</span>
-        </td>
-        <td style="text-align: center">
-          <a href="#" alt="Delete" ng-if="!(edit._id.$oid == q._id.$oid)" ng-click="queueDel(q._id)">
-            <span class="glyphicon glyphicon-remove"></span>
-          </a>
+          <a href="" alt="Edit" ng-click="queueEdit(q._id)" class="mybtn"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+          <a href="" alt="Delete" ng-click="queueDel(q._id)" class="mybtn"><i class="glyphicon glyphicon-trash"></i></a>
         </td>
       </tr>
       <tr ng-if="!waiting">
-        <td colspan="3">
-          <button ng-if="!showAddForm" class="btn btn-primary btn-xs" ng-click="toogleAddForm()">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
+        <td colspan="5">
+          <a ng-if="!showAddForm" role="button" ng-click="toogleAddForm()" style="margin-left: 10px;">
+            <i class="fa fa-plus-circle fa-2x"></i>
+          </a>
           <div ng-if="showAddForm">
             Name: <input type="text" ng-model="edit.name" style="width: 40%;">
             Organization: <select ng-model="edit.organization">

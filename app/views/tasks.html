@@ -1,5 +1,9 @@
 <div ng-controller="TasksCtrl">
-  <h1 class="text-danger" style="margin-bottom: 30px;">Tasks <small><span ng-if="queue.organization">[{{ queue.organization.name }}] </span>{{ queue.name }}</small></h1>
+  <!-- <h1 class="text-primary">Tasks</h1> -->
+  <h1 class="mytitle">
+    <span class="text-primary">{{ queue.name }}</span>
+    <span ng-if="queue.organization" class="pull-right label label-info" style="font-weight: normal; text-transform: uppercase; font-size: 40%; margin-top: 14px;">{{ queue.organization.name }}</span>
+  </h1>
   <table class="table">
     <tbody>
       <tr ng-if="waiting">
@@ -23,15 +27,15 @@
         <td style="text-align: right" class="text-muted">
         </td>
         <td style="text-align: center;">
-          <a class="mybtn" href="" alt="Done" ng-click="taskDone(t._id)"><span ng-if="!t.done" class="glyphicon glyphicon-ok text-success"></span></a>
-          <a class="mybtn" href="" alt="Undone" ng-click="taskUndo(t._id)"><span ng-if="t.done" class="glyphicon glyphicon-remove text-danger"></span></a>
-          &nbsp;<a class="mybtn" href="" ng-click="toogleOpt($index)"><span class="glyphicon glyphicon-cog"></span></a>
+          <a class="mybtn" href="" alt="Done" ng-click="taskDone(t._id)"><span ng-if="!t.done" class="fa fa-check-circle fa-lg text-success"></span></a>
+          <a class="mybtn" href="" alt="Undone" ng-click="taskUndo(t._id)"><span ng-if="t.done" class="fa fa-times-circle fa-lg text-danger"></span></a>
+          &nbsp;<a class="mybtn" href="" ng-click="toogleOpt($index)"><span class="fa fa-gears fa-lg"></span></a>
         </td>
       </tr>
-      <tr ng-repeat-end ng-show="opts[$index]">
-        <td style="border: 0px;"></td>
+      <tr ng-repeat-end ng-show="opts[$index]" ng-class="{ mybg: t.done }">
+        <td style="border: 0px; background-color: white;"></td>
         <td colspan="2" style="border: 0px;">
-          <span> {{ t.partial }}% completed. <span ng-if="t.date">Due Date: {{ t.date }}.</span>
+          <small> {{ t.partial }}% completed. <span ng-if="t.date">Due Date: {{ t.date }}.</small>
           <span class="pull-right">
             <a href="" ng-click="taskEdit(t)" class="mybtn"><span class="glyphicon glyphicon-pencil"></span></a>
             &nbsp;<a href="" ng-click="alert(t._id)" class="mybtn"><span class="glyphicon glyphicon-calendar"></span></a>
@@ -40,25 +44,20 @@
             &nbsp;<a href="" ng-click="taskDel(t._id)" class="mybtn"><span class="glyphicon glyphicon-trash"></span></a>
           </span>
         </td>
-        <td style="border: 0px;"></td>
+        <td style="border: 0px; background-color: white;"></td>
       </tr>
       <tr ng-if="!waiting">
         <td style="text-align: center;">
-          <button class="btn btn-default btn-xs" ng-click="toogleAddTask()" ng-disabled="showAddTask">
-            <span class="glyphicon glyphicon-plus"></span>
-          </button>
+          <a ng-if="!showAddTask" role="button" ng-click="toogleAddTask()" ng-disabled="showAddTask">
+            <i class="fa fa-plus-circle fa-2x"></i>
+          </a>
         </td>
-        <td colspan="2">
+        <td colspan="3">
           <div ng-if="showAddTask">
-            Task: <input type="text" ng-model="edit.text" style="width: 40%;">
+            Task: <input type="text" ng-model="edit.text" style="width: 60%;">
             <button class="btn btn-success btn-xs" ng-click="taskAdd()">Add</button>
             <button class="btn btn-default btn-xs" ng-click="toogleAddTask()">Cancel</button>
           </div>
-        </td>
-        <td style="text-align: center;">
-          <button class="btn btn-default btn-xs" ng-click="updateMe()" ng-disabled="showAddTask">
-            <span class="glyphicon glyphicon-refresh"></span>
-          </button>
         </td>
       </tr>
     </tbody>
