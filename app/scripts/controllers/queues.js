@@ -25,7 +25,7 @@ angular.module('druidWebApp')
               .then( function(response) {
                 $scope.stats = response.data;
               })
-          }
+          };
         });
     };
 

@@ -31,7 +31,7 @@ angular.module('druidWebApp')
                     { key: 'done', values: response.data.done, color: 'green'}
                   ];
                   if ($scope.labels === undefined) {
-                    var mylabels = new Array();
+                    var mylabels = [];
                     for (var j = 0 ; j < response.data.todo.length ; j++ ) {
                       mylabels.push(response.data.todo[j].label);
                     }

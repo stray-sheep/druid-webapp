@@ -43,7 +43,7 @@ angular.module('druidWebApp')
       $state.go('index');
     };
 
-    $scope.register = function() {
+    $scope.doRegister = function() {
       if ($scope.register.email && $scope.register.username && $scope.register.password && $scope.register.repeat) {
         $http
           .post(API + '/register', $scope.register)
