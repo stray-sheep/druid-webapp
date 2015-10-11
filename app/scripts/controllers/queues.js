@@ -36,8 +36,12 @@ angular.module('druidWebApp')
 
     $scope.showAddForm = false;
     $scope.edit = { user: $scope.user._id };
-    $scope.organizations = [{name:'stray-sheep', _id:'55f8110cef8dafe56e260f88'}];  // FIXME
-
+    $scope.organizations = [];
+    $http
+      .get(API+'/organizations')
+      .then( function(response) {
+        $scope.organizations = response.data;
+      });
     updateMe();
 
     $scope.toogleAddForm = function() {
